@@ -1,9 +1,12 @@
 package lan.dk.poc.rx;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+import rx.subjects.ReplaySubject;
+
+import java.util.stream.IntStream;
 
 @SpringBootApplication
 public class PocRxApplication {
@@ -12,8 +15,34 @@ public class PocRxApplication {
 		SpringApplication.run(PocRxApplication.class, args);
 	}
 
-	@Bean
-	public ObjectMapper objectMapper() {
-		return new ObjectMapper();
+
+	@Service
+	public static class AtBoot implements CommandLineRunner{
+
+		private final ReplaySubject<Message> messages$ = ReplaySubject.create(0);
+
+		@Override
+		public void run(String... strings) throws Exception {
+
+			messages$
+					.subscribe(
+							System.out::println,
+							System.out::println,
+							System.out::println
+					);
+
+			IntStream
+					.range(1,10)
+					.mapToObj(i -> Message.builder().title("Title " + i).message("Message " + i).build())
+					.forEach(messages$::onNext);
+
+			messages$
+					.subscribe(
+							System.out::println,
+							System.out::println,
+							System.out::println
+					);
+
+		}
 	}
 }
