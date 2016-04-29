@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RxTry</title>
+</head>
+<body>
+
+
+<script>
+
+    var s = new EventSource("/sse");
+    s.onmessage = m => console.log(JSON.parse(m.data));
+
+</script>
+
+</body>
+</html>

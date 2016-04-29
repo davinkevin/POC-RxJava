@@ -9,7 +9,7 @@ import rx.subjects.BehaviorSubject;
 @Service
 public class RxComp {
 
-    public final BehaviorSubject<String> messageQueue;
+    final BehaviorSubject<String> messageQueue;
 
     public RxComp() {
         this.messageQueue = BehaviorSubject.create("Foo");
