@@ -6,13 +6,16 @@
 </head>
 <body>
 
+<button id="start">Start</button>
+<button id="addSubscriber">Add SSE</button>
 
-<script>
+<div id="connections">
 
-    var s = new EventSource("/sse");
-    s.onmessage = m => console.log(JSON.parse(m.data));
+</div>
 
-</script>
+<script src="js/rx.all.js"></script>
+<script src="js/rx.dom.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>

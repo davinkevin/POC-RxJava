@@ -3,7 +3,6 @@ package lan.dk.poc.rx;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Service;
 import rx.subjects.ReplaySubject;
 
 import java.util.stream.IntStream;
@@ -16,7 +15,7 @@ public class PocRxApplication {
 	}
 
 
-	@Service
+	//@Service
 	public static class AtBoot implements CommandLineRunner{
 
 		private final ReplaySubject<Message> messages$ = ReplaySubject.create(0);

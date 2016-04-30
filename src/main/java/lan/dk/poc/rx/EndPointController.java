@@ -10,6 +10,7 @@ import rx.functions.Action1;
 import rx.subjects.BehaviorSubject;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 /**
@@ -32,7 +33,10 @@ public class EndPointController {
 
     @RequestMapping("sse")
     public SseEmitter sse() {
+        UUID uuid = UUID.randomUUID();
         final SseEmitter emitter = new SseEmitter(1000L*60*60);
+
+        log.info("Registering to SSE {}", uuid);
 
         Action1<Message> publisher = publish(emitter);
 
@@ -44,7 +48,10 @@ public class EndPointController {
                 );
 
         emitter.onTimeout(subscribe::unsubscribe);
-        emitter.onCompletion(subscribe::unsubscribe);
+        emitter.onCompletion(() -> {
+            log.info("Completion of {}", uuid);
+            subscribe.unsubscribe();
+        });
 
         return emitter;
     }
